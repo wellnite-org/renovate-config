@@ -4,39 +4,63 @@
   "rebaseWhen": "conflicted",
   "labels": ["dependencies"],
   "automergeStrategy": "merge-commit",
+  "prBodyNotes": ["{{{ changelogUrl }}}"],
+  "prCreation": "not-pending",
+  "prConcurrentLimit": 3,
   "branchConcurrentLimit": 5,
   "osvVulnerabilityAlerts": "true",
   "vulnerabilityAlerts": {
     "labels": ["security"],
-    "automerge": true,
     "enabled": true
   },
   "packageRules": [
     {
+      "description": "Separate Alpine Docker image patch updates",
       "matchManagers": ["dockerfile"],
       "matchPackagePatterns": ["alpine"],
       "separateMinorPatch": true
     },
     {
+      "description": "Auto-approve and automerge Alpine patch updates in Dockerfiles every weekend",
       "matchManagers": ["dockerfile"],
       "matchPackagePatterns": ["alpine"],
       "matchUpdateTypes": ["patch"],
-      "autoApprove": true,
-      "automerge": true,
-      "schedule": ["every weekend after 4am"]
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "autoApprove": true,
       "automerge": true,
       "pinDigests": true,
-      "schedule": ["every weekend after 4am"]
+      "schedule": ["every weekend after 4am"],
+      "prPriority": -1
     },
     {
+      "description": "Auto-approve and automerge safe GitHub Actions updates",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "github workflows (non-major)",
+      "automerge": true,
+      "pinDigests": true,
+      "schedule": ["every weekend after 4am"],
+      "prPriority": -1
+    },
+    {
+      "description": "Do not automerge major devDependencies",
       "matchDepTypes": ["devDependencies"],
-      "autoApprove": true,
-      "automerge": true
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "schedule": ["on monday and thursday"],
+      "prPriority": -1
+    },
+    {
+      "description": "Auto-approve and automerge non-major devDependencies",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "devDependencies (non-major)",
+      "automerge": true,
+      "schedule": ["on monday and thursday"],
+      "prPriority": -1
+    },
+    {
+      "description": "Prevent auto-merge of production dependencies",
+      "matchDepTypes": ["dependencies"],
+      "automerge": false
     }
   ]
 }
