@@ -21,7 +21,7 @@
       "separateMinorPatch": true
     },
     {
-      "description": "Auto-approve and automerge Alpine patch updates in Dockerfiles every weekend",
+      "description": "Automerge Alpine patch updates in Dockerfiles every weekend",
       "matchManagers": ["dockerfile"],
       "matchPackagePatterns": ["alpine"],
       "matchUpdateTypes": ["patch"],
@@ -31,7 +31,7 @@
       "prPriority": -1
     },
     {
-      "description": "Auto-approve and automerge safe GitHub Actions updates",
+      "description": "Automerge safe GitHub Actions updates",
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "github workflows (non-major)",
@@ -49,7 +49,7 @@
       "prPriority": -1
     },
     {
-      "description": "Auto-approve and automerge non-major devDependencies",
+      "description": "Automerge non-major devDependencies",
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "devDependencies (non-major)",
