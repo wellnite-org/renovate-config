@@ -1,10 +1,18 @@
 {
   "baseBranches": ["main"],
+  "configMigration": "true",
   "rebaseWhen": "conflicted",
   "labels": ["dependencies"],
   "automergeStrategy": "merge-commit",
+  "branchConcurrentLimit": 5,
+  "osvVulnerabilityAlerts": "true",
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "automerge": true,
+    "enabled": true
+  },
   "packageRules": [
-   {
+    {
       "matchManagers": ["dockerfile"],
       "matchPackagePatterns": ["alpine"],
       "separateMinorPatch": true
@@ -13,15 +21,22 @@
       "matchManagers": ["dockerfile"],
       "matchPackagePatterns": ["alpine"],
       "matchUpdateTypes": ["patch"],
+      "autoApprove": true,
       "automerge": true,
       "schedule": ["every weekend after 4am"]
     },
     {
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch"],
+      "autoApprove": true,
       "automerge": true,
       "pinDigests": true,
       "schedule": ["every weekend after 4am"]
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "autoApprove": true,
+      "automerge": true
     }
   ]
 }
